@@ -13,14 +13,17 @@ public class Code04_WordLadderII {
 	public static List<List<String>> findLadders(String start, String end, List<String> list) {
 		list.add(start);
 		HashMap<String, List<String>> nexts = getNexts(list);
-		HashMap<String, Integer> distances = getDistances(start, nexts);
-		LinkedList<String> pathList = new LinkedList<>();
+		HashMap<String, Integer> fromDistances = getDistances(start, nexts);
 		List<List<String>> res = new ArrayList<>();
-		getShortestPaths(start, end, nexts, distances, pathList, res);
+		if (!fromDistances.containsKey(end)) {
+			return res;
+		}
+		HashMap<String, Integer> toDistances = getDistances(end, nexts);
+		LinkedList<String> pathList = new LinkedList<>();
+		getShortestPaths(start, end, nexts, fromDistances, toDistances, pathList, res);
 		return res;
 	}
 
-	//
 	public static HashMap<String, List<String>> getNexts(List<String> words) {
 		HashSet<String> dict = new HashSet<>(words);
 		HashMap<String, List<String>> nexts = new HashMap<>();
@@ -73,18 +76,21 @@ public class Code04_WordLadderII {
 	// cur 当前来到的字符串 可变
 	// to 目标，固定参数
 	// nexts 每一个字符串的邻居表
-	// cur 到开头距离5 -> 到开头距离是6的支路 distances距离表
+	// cur 到开头距离5 -> 到开头距离是6的支路 fromDistances距离表
+	// cur 到结尾距离5 -> 到开头距离是4的支路 toDistances距离表
 	// path : 来到cur之前，深度优先遍历之前的历史是什么
 	// res : 当遇到cur，把历史，放入res，作为一个结果
 	public static void getShortestPaths(String cur, String to, HashMap<String, List<String>> nexts,
-			HashMap<String, Integer> distances, LinkedList<String> path, List<List<String>> res) {
+			HashMap<String, Integer> fromDistances, HashMap<String, Integer> toDistances, LinkedList<String> path,
+			List<List<String>> res) {
 		path.add(cur);
 		if (to.equals(cur)) {
 			res.add(new LinkedList<String>(path));
 		} else {
 			for (String next : nexts.get(cur)) {
-				if (distances.get(next) == distances.get(cur) + 1) {
-					getShortestPaths(next, to, nexts, distances, path, res);
+				if (fromDistances.get(next) == fromDistances.get(cur) + 1
+						&& toDistances.get(next) == toDistances.get(cur) - 1) {
+					getShortestPaths(next, to, nexts, fromDistances, toDistances, path, res);
 				}
 			}
 		}
