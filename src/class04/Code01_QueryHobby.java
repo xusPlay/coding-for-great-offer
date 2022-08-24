@@ -2,6 +2,8 @@ package class04;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Code01_QueryHobby {
 
@@ -96,7 +98,7 @@ public class Code01_QueryHobby {
 		for (int i = 0; i < testTimes; i++) {
 			int[] arr = generateRandomArray(len, value);
 			int N = arr.length;
-			QueryBox1 box1 = new QueryBox1(arr);
+			QueryBox box1 = new QueryBox(arr);
 			QueryBox2 box2 = new QueryBox2(arr);
 			for (int j = 0; j < queryTimes; j++) {
 				int a = (int) (Math.random() * N);
@@ -110,6 +112,51 @@ public class Code01_QueryHobby {
 			}
 		}
 		System.out.println("test end");
+	}
+
+	public static class QueryBox {
+		private Map<Integer, List<Integer>> map;
+
+		public QueryBox(int[] arr) {
+			map = new HashMap<>();
+			for (int i = 0; i < arr.length; i++) {
+				if (!map.containsKey(arr[i])) {
+					map.put(arr[i], new ArrayList<>());
+				}
+
+				map.get(arr[i]).add(i);
+			}
+		}
+
+		public int query(int L, int R, int value) {
+			if (!map.containsKey(value)) {
+				return 0;
+			}
+
+			List<Integer> integers = map.get(value);
+
+			int a = countLess(integers, L);
+			int b = countLess(integers, R + 1);
+			return b - a;
+		}
+
+		// < limit 的个数
+		private int countLess(List<Integer> arr, int limit) {
+			int L = 0;
+			int R = arr.size() - 1;
+			int index = -1;
+			while (L <= R) {
+				int mid = L + ((R - L) >> 1);
+				if (arr.get(mid) < limit) {
+					index = mid;
+					L = mid + 1;
+				} else {
+					R = mid - 1;
+				}
+			}
+
+			return index;
+		}
 	}
 
 }

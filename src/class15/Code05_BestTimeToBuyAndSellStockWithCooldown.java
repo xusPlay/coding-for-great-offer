@@ -15,7 +15,9 @@ public class Code05_BestTimeToBuyAndSellStockWithCooldown {
 		if (index >= prices.length) {
 			return 0;
 		}
+
 		if (buy) {
+			
 			int noSell = process1(prices, true, index + 1, buyPrices);
 			int yesSell = prices[index] - buyPrices + process1(prices, false, index + 2, 0);
 			return Math.max(noSell, yesSell);

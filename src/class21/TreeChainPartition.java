@@ -11,7 +11,7 @@ public class TreeChainPartition {
 		private int n;
 		// 谁是头
 		private int h;
-		// 朴素树结构
+		// 朴素树结构，i的后代有tree[i]
 		private int[][] tree;
 		// 权重数组 原始的0节点权重是6 -> val[1] = 6
 		private int[] val;
@@ -20,16 +20,17 @@ public class TreeChainPartition {
 		// 深度数组！
 		private int[] dep;
 		// son[i] = 0 i这个节点，没有儿子
-		// son[i] != 0 j i这个节点，重儿子是j
+		// son[i] == j && j != 0 i这个节点，重儿子是j
 		private int[] son;
 		// siz[i] i这个节点为头的子树，有多少个节点
 		private int[] siz;
-		// top[i] = j i这个节点，所在的重链，头是j
+		// top[i] = j => i这个节点，所在的重链，头是j
 		private int[] top;
 		// dfn[i] = j i这个节点，在dfs序中是第j个
 		private int[] dfn;
 		// 如果原来的节点a，权重是10
 		// 如果a节点在dfs序中是第5个节点, tnw[5] = 10
+		// 把原来的树，对应成新的编号，后面操作线段树就是基于这个新的编号
 		private int[] tnw;
 		// 线段树，在tnw上，玩连续的区间查询或者更新
 		private SegmentTree seg;

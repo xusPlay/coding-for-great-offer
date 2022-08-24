@@ -1,6 +1,7 @@
 package class03;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class Code02_HowManyTypes {
 
@@ -69,7 +70,7 @@ public class Code02_HowManyTypes {
 		System.out.println("test begin, test time : " + testTimes);
 		for (int i = 0; i < testTimes; i++) {
 			String[] arr = getRandomStringArray(possibilities, strMaxSize, arrMaxSize);
-			int ans1 = types1(arr);
+			int ans1 = types(arr);
 			int ans2 = types2(arr);
 			if (ans1 != ans2) {
 				System.out.println("Oops!");
@@ -79,4 +80,17 @@ public class Code02_HowManyTypes {
 
 	}
 
+
+	public static int types(String[] strs) {
+		Set<Integer> hashSet = new HashSet<>();
+		for (String s : strs) {
+			char[] str = s.toCharArray();
+			int key = 0;
+			for (char c : str) {
+				key |= (1 << (c - 'a'));
+			}
+			hashSet.add(key);
+		}
+		return hashSet.size();
+	}
 }

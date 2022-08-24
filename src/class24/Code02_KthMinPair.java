@@ -43,7 +43,7 @@ public class Code02_KthMinPair {
 	}
 
 	// O(N*logN)的复杂度，你肯定过了
-	public static int[] kthMinPair2(int[] arr, int k) {
+	lea
 		int N = arr.length;
 		if (k > N * N) {
 			return null;

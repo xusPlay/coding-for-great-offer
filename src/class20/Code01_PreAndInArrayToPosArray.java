@@ -10,6 +10,7 @@ public class Code01_PreAndInArrayToPosArray {
 		if (pre == null || in == null || pre.length != in.length) {
 			return null;
 		}
+		// 预处理出一个索引表
 		int N = pre.length;
 		HashMap<Integer, Integer> inMap = new HashMap<>();
 		for (int i = 0; i < N; i++) {
@@ -220,7 +221,7 @@ public class Code01_PreAndInArrayToPosArray {
 			int[] pre = getPreArray(head);
 			int[] in = getInArray(head);
 			int[] pos = getPosArray(head);
-			int[] ans1 = preInToPos1(pre, in);
+			int[] ans1 = preInToPos(pre, in);
 			int[] ans2 = preInToPos2(pre, in);
 			int[] classAns = zuo(pre, in);
 			if (!isEqual(pos, ans1) || !isEqual(ans1, ans2) || !isEqual(pos, classAns)) {
@@ -229,5 +230,50 @@ public class Code01_PreAndInArrayToPosArray {
 		}
 		System.out.println("test end");
 
+	}
+
+	// 给定 先序遍历数组 和 中序遍历数组，返回后续遍历数组
+	// [root][left][right]
+	// [left][root][right]
+	// 生成
+	// [left][right][root]
+	public static int[] preInToPos(int[] pre, int[] in) {
+		if (pre == null || in == null || pre.length != in.length) {
+			return null;
+		}
+
+		int length = pre.length;
+		int[] ans = new int[pre.length];
+		process(pre, 0, length - 1, in, 0, length - 1, ans, 0, length - 1);
+		return ans;
+	}
+
+	// pre l1...r1
+	// in l2 ...r2
+	// => post l3..r3
+	private static void process(int[] pre, int l1, int r1, int[] in, int l2, int r2, int[] post, int l3, int r3) {
+		if (l1 > r1) {
+			return;
+		}
+
+		if (l1 == r1) {
+			post[l3] = pre[l1];
+			return;
+		}
+
+		post[r3] = pre[l1];
+		int mid = l2;
+		for (; mid <= r2; mid++) {
+			if (in[mid] == pre[l1]) {
+				break;
+			}
+		}
+
+		int leftSize = mid - l2;
+		// left
+		process(pre, l1 + 1, l1 + leftSize, in, l2, mid - 1, post, l3, l3 + leftSize - 1);
+
+		// right
+		process(pre, l1 + leftSize + 1, r1, in, mid + 1, r2, post, l3 + leftSize, r3 - 1);
 	}
 }

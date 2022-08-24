@@ -3,7 +3,7 @@ package class22;
 import java.util.PriorityQueue;
 
 // 本题测试链接 : https://leetcode.cn/problems/trapping-rain-water-ii/
-public class Code03_TrappingRainWaterII {
+public class i {
 
 	public static class Node {
 		public int value;
@@ -26,6 +26,7 @@ public class Code03_TrappingRainWaterII {
 		int M = heightMap[0].length;
 		boolean[][] isEnter = new boolean[N][M];
 		PriorityQueue<Node> heap = new PriorityQueue<>((a, b) -> a.value - b.value);
+		// 4个边，不可能有雨水
 		for (int col = 0; col < M - 1; col++) {
 			isEnter[0][col] = true;
 			heap.add(new Node(heightMap[0][col], 0, col));

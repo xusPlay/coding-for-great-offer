@@ -18,6 +18,7 @@ public class Code03_MaximumXorWithAnElementFromArray {
 	}
     
 	public static class Node {
+		// 每个节点存着整棵树的最小值
 		public int min;
 		public Node[] nexts;
 
@@ -32,6 +33,7 @@ public class Code03_MaximumXorWithAnElementFromArray {
 
 		public void add(int num) {
 			Node cur = head;
+			// 每个节点存着当前节点对应的最小值
 			head.min = Math.min(head.min, num);
 			for (int move = 30; move >= 0; move--) {
 				int path = ((num >> move) & 1);

@@ -30,11 +30,14 @@ public class Code05_MinimumCostToMergeStones {
 //		return ans;
 //	}
 
+	// 把stones，每次合并k个元素，最终留下一个元素
 	public static int mergeStones1(int[] stones, int K) {
 		int n = stones.length;
 		if ((n - 1) % (K - 1) > 0) {
 			return -1;
 		}
+		
+		// 前缀和
 		int[] presum = new int[n + 1];
 		for (int i = 0; i < n; i++) {
 			presum[i + 1] = presum[i] + stones[i];
@@ -45,12 +48,14 @@ public class Code05_MinimumCostToMergeStones {
 	// part >= 1
 	// arr[L..R] 一定要弄出part份，返回最低代价
 	// arr、K、presum（前缀累加和数组，求i..j的累加和，就是O(1)了）
+	// L...R 范围内，合并出来P份， 每次合并连续的K个元素
 	public static int process1(int L, int R, int P, int[] arr, int K, int[] presum) {
 		if (L == R) { // arr[L..R]
 			return P == 1 ? 0 : -1;
 		}
 		// L ... R 不只一个数
 		if (P == 1) {
+			// L...R 上弄出来K份，
 			int next = process1(L, R, K, arr, K, presum);
 			if (next == -1) {
 				return -1;

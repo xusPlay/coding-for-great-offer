@@ -43,10 +43,32 @@ public class Code06_MakeNo {
 		return true;
 	}
 
+	public static int[] makeNo2(int size) {
+		if (size == 1) {
+			return new int[]{1};
+		}
+
+		int halfSize = (size + 1) / 2;
+		// 递归调用子过程
+		int[] base = makeNo2(halfSize);
+
+		int[] ans = new int[size];
+		int index = 0;
+		for (; index < halfSize; index++) {
+			ans[index] = base[index] * 2 - 1;
+		}
+
+		for (int i = 0; index < size; index++, i++) {
+			ans[index] = base[i] * 2;
+		}
+
+		return ans;
+	}
+
 	public static void main(String[] args) {
 		System.out.println("test begin");
 		for (int N = 1; N < 1000; N++) {
-			int[] arr = makeNo(N);
+			int[] arr = makeNo2(N);
 			if (!isValid(arr)) {
 				System.out.println("Oops!");
 			}

@@ -53,6 +53,12 @@ public class Code01_Split4Parts {
 		}
 		int lsum = arr[0]; // 第一刀左侧的累加和
 		for (int s1 = 1; s1 < arr.length - 5; s1++) { // s1是第一刀的位置
+			// 如果第一刀在是s1 位置
+			// 那么第二刀之前的累加和应该为 2 *lsum + s1
+			// 假设第二刀在s1,那么第三刀之前的累加和应该为： 3* lsum + s1 + s2
+			// 最后一刀切完，应该满足： 3 * lsum + s1 + s2 + s3 + lsum = sum
+			// 如果不满足如上条件，说明不存在切点
+
 			int checkSum = lsum * 2 + arr[s1]; // 100 x 100   100*2 + x
 			if (map.containsKey(checkSum)) {
 				int s2 = map.get(checkSum); // j -> y

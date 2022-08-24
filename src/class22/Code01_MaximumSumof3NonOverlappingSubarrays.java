@@ -48,24 +48,38 @@ public class Code01_MaximumSumof3NonOverlappingSubarrays {
 
 	public static int[] maxSumOfThreeSubarrays(int[] nums, int k) {
 		int N = nums.length;
+
+		// 辅助数组记录每个位置必须以i位置结尾的长度为k的子数组和
+		// range[i] => 以i位置做起点长度为k的子数组的累加和
 		int[] range = new int[N];
+		// 从左到右 选k个长度的子数组的最大累加和的起始索引
+		// dp[0] 0..0上选k个长度的子数组最大的累加和
 		int[] left = new int[N];
+
+		// 求前k个长度的子数组的和
 		int sum = 0;
 		for (int i = 0; i < k; i++) {
 			sum += nums[i];
 		}
+
 		range[0] = sum;
 		left[k - 1] = 0;
 		int max = sum;
 		for (int i = k; i < N; i++) {
+			// 去除最左边的数，加上新进来的数
 			sum = sum - nums[i - k] + nums[i];
+
+		
 			range[i - k + 1] = sum;
+			// 把必须以i位置结尾的数 和 i-1 位置的答案比较，
 			left[i] = left[i - 1];
 			if (sum > max) {
 				max = sum;
 				left[i] = i - k + 1;
 			}
 		}
+
+
 		sum = 0;
 		for (int i = N - 1; i >= N - k; i--) {
 			sum += nums[i];
@@ -81,10 +95,13 @@ public class Code01_MaximumSumof3NonOverlappingSubarrays {
 				right[i] = i;
 			}
 		}
+
+
 		int a = 0;
 		int b = 0;
 		int c = 0;
 		max = 0;
+		// [...left...k...right...]
 		for (int i = k; i < N - 2 * k + 1; i++) { // 中间一块的起始点 (0...k-1)选不了 i == N-1
 			int part1 = range[left[i - 1]];
 			int part2 = range[i];

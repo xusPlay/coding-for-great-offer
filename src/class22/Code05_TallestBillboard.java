@@ -9,7 +9,7 @@ public class Code05_TallestBillboard {
 		// key 集合对的某个差
 		// value 满足差值为key的集合对中，最好的一对，较小集合的累加和
 		// 较大 -> value + key
-		HashMap<Integer, Integer> dp = new HashMap<>(), cur;
+		HashMap<Integer, Integer> dp = new HashMap<>(), fo;
 		dp.put(0, 0);// 空集 和 空集
 		for (int num : rods) {
 			if (num != 0) {
@@ -19,6 +19,8 @@ public class Code05_TallestBillboard {
 					int diffMore = cur.get(d); // 最好的一对，较小集合的累加和
 					// x决定放入，比较大的那个
 					dp.put(d + num, Math.max(diffMore, dp.getOrDefault(num + d, 0)));
+
+					
 					// x决定放入，比较小的那个
 					// 新的差值 Math.abs(x - d)
 					// 之前差值为Math.abs(x - d)，的那一对，就要和这一对，决策一下

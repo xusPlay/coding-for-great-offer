@@ -44,11 +44,14 @@ public class Code04_MaxPairNumber {
 		if (k < 0 || arr == null || arr.length < 2) {
 			return 0;
 		}
+		// 对原数组进行排序
 		Arrays.sort(arr);
+
 		int ans = 0;
 		int N = arr.length;
 		int L = 0;
 		int R = 0;
+
 		boolean[] usedR = new boolean[N];
 		while (L < N && R < N) {
 			if (usedR[L]) {

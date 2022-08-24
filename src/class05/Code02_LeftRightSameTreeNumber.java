@@ -81,7 +81,7 @@ public class Code02_LeftRightSameTreeNumber {
 		for (int i = 0; i < testTime; i++) {
 			Node head = randomBinaryTree(maxLevel, maxValue);
 			int ans1 = sameNumber1(head);
-			int ans2 = sameNumber2(head);
+			int ans2 = sameNumber3(head);
 			if (ans1 != ans2) {
 				System.out.println("出错了！");
 				System.out.println(ans1);
@@ -92,4 +92,23 @@ public class Code02_LeftRightSameTreeNumber {
 
 	}
 
+	public static int sameNumber3(Node head) {
+		if (head == null) {
+			return 0;
+		}
+
+		return sameNumber3(head.left) + sameNumber3(head.right) + (same3(head.left, head.right) ? 1 : 0);
+	}
+
+	private static boolean same3(Node h1, Node h2) {
+		if (h1 == null ^ h2 == null) {
+			return false;
+		}
+
+		if (h1 == null && h2 == null) {
+			return true;
+		}
+
+		return h1.value == h2.value && same3(h1.left, h2.left) && same3(h1.right, h2.right);
+	}
 }

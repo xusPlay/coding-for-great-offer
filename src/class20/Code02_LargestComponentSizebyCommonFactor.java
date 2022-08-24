@@ -7,6 +7,7 @@ import java.util.HashMap;
 // 方法1会超时，但是方法2直接通过
 public class Code02_LargestComponentSizebyCommonFactor {
 
+	// 暴力的连通方法
 	public static int largestComponentSize1(int[] arr) {
 		int N = arr.length;
 		UnionFind set = new UnionFind(N);
@@ -20,10 +21,12 @@ public class Code02_LargestComponentSizebyCommonFactor {
 		return set.maxSize();
 	}
 
+	// x判断是不是质数
 	public static int largestComponentSize2(int[] arr) {
 		int N = arr.length;
 		// arr中，N个位置，在并查集初始时，每个位置自己是一个集合
 		UnionFind unionFind = new UnionFind(N);
+		// 维护了一张因子表
 		//      key 某个因子   value 哪个位置拥有这个因子
 		HashMap<Integer, Integer> fatorsMap = new HashMap<>();
 		for (int i = 0; i < N; i++) {
@@ -32,13 +35,18 @@ public class Code02_LargestComponentSizebyCommonFactor {
 			int limit = (int) Math.sqrt(num);
 			for (int j = 1; j <= limit; j++) {
 				if (num % j == 0) {
+					// 第一个因子
 					if (j != 1) {
 						if (!fatorsMap.containsKey(j)) {
 							fatorsMap.put(j, i);
-						} else {
+						}
+						// 如果之前存在某因子，和原来的数合并
+						else {
 							unionFind.union(fatorsMap.get(j), i);
 						}
 					}
+
+					// 第二个因子
 					int other = num / j;
 					if (other != 1) {
 						if (!fatorsMap.containsKey(other)) {
@@ -53,7 +61,7 @@ public class Code02_LargestComponentSizebyCommonFactor {
 		return unionFind.maxSize();
 	}
 
-	// O(1)
+	// O(1) 求最大公约数
 	// m,n 要是正数，不能有任何一个等于0
 	public static int gcd(int a, int b) {
 		return b == 0 ? a : gcd(b, a % b);
@@ -68,6 +76,7 @@ public class Code02_LargestComponentSizebyCommonFactor {
 			parents = new int[N];
 			sizes = new int[N];
 			help = new int[N];
+			// 并查集的元素是位置
 			for (int i = 0; i < N; i++) {
 				parents[i] = i;
 				sizes[i] = 1;
